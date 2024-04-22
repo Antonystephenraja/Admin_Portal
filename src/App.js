@@ -4,6 +4,11 @@ import { Route, Routes } from 'react-router-dom'
 import Route_Page from './Component/Route/Route_Page'
 import OutletPage from './Component/Route/OutletPage'
 import Mainpage from './Component/skf/Mainpage'
+import Graph from './Component/skf/Graph'
+import Reports from './Component/skf/Reports'
+import Settings from './Component/skf/Settings'
+import Admin_Dashboard from './Component/Admin/Admin_Dashboard'
+import SkfAdmin from './Component/skf/SkfAdmin'
 
 const App = () => {
   const Access = localStorage.getItem('token');
@@ -19,12 +24,14 @@ const App = () => {
           {!Access_Role ? ( 
             <Route path="/" element={<OutletPage/>}>
               <Route index element={<Mainpage />}/>
-              {/* <Route path="dashgraph" element={<DashGraph />} /> */}
+              <Route path="dashgraph" element={<Graph />} />
+              <Route path="dashreports" element={<Reports/>} />
+              <Route path="dashsettings" element={<Settings/>} />
             </Route>
           ): (
             <Route path="/" element={<OutletPage/>}>
-              <Route index element={<Mainpage />} />
-              {/* <Route path="skfadmin" element={<SkfAdmin />} /> */}
+              <Route index element={<Admin_Dashboard />} />
+              <Route path="skfadmin" element={<SkfAdmin />} />
           </Route>
           )}
 
