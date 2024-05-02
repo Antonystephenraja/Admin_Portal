@@ -3,6 +3,8 @@ import xymaimg from '../Assets/xyma.png'
 import { Link } from "react-router-dom"
 import { useState } from 'react'
 import axios from 'axios'
+import skf from '../Assets/skf.png'
+import bpcl from '../Assets/bpcl.png'
 
 const Admin_Dashboard = () => {
     const handleLogout = () =>
@@ -40,6 +42,7 @@ const handleSubmit = async(e) =>
   e.preventDefault();
   try
   {
+ 
     //for createproject backend api
     const formData = {
       projectName: e.target.projectName.value,
@@ -48,6 +51,7 @@ const handleSubmit = async(e) =>
       parameters: parameters,
       parameterValues: []
     };  
+    console.log("yes button is clicked",formData)
     for (let i = 1; i <= parameters; i++) 
     {
       formData.parameterValues.push(e.target[`parameter${i}`].value);
@@ -64,13 +68,13 @@ const handleSubmit = async(e) =>
     console.log('query string',queryString);
 
     //insert link
-    let insertLink = `http://localhost:3001/backend/insertProjectData?projectName=${projectName}`;
+    let insertLink = `http://43.204.133.45:4000/sensor/insertProjectData?projectName=${projectName}`;
     parameterValues.forEach((value, index) => {
       insertLink += `&${value}={insert value}`;
     });
     console.log('insertlink',insertLink)
 
-    const response1 = await axios.post('http://localhost:3001/backend/createproject',formData);
+    const response1 = await axios.post('http://43.204.133.45:4000/sensor/createproject',formData);
     console.log('formdata',formData);
     if(response1.status === 201)
     {
@@ -80,17 +84,7 @@ const handleSubmit = async(e) =>
     {
       console.log("Failed to add project data");
     }
-
-    const response2 = await axios.get(`http://localhost:3001/backend/insertProjectData?${queryString}`);
-    if(response2.status === 201)
-    {
-      console.log("second link success");
-    }
-    else
-    {
-      console.log("Failed");
-    }
-    window.alert(`Insert Link -> ${insertLink}`); // displays the insert link
+    window.alert(`Insert Link -> ${insertLink}`); 
   }
   catch(error)
   {
@@ -109,16 +103,34 @@ const handleSubmit = async(e) =>
               </div>
           </Link>
     </div>
-    <div className='flex justify-between'>
-        <Link to='/skfadmin'>
-        <div className='rounded-md cursor-pointer hover:scale-110 w-12 text-center text-lg p-1 duration-200 bg-blue-400 mt-4 text-white font-medium'>
-            SKF
-        </div>
-        </Link>
+    <div className='flex justify-end'>
         <div className='rounded-md w-24 cursor-pointer hover:scale-110 text-lg p-1 text-center duration-200 bg-green-400 mt-4 text-white font-medium' onClick={handlePopup}>
             {text}
         </div>
     </div>
+    <div className='flex gap-4'>
+        <Link to='/skfadmin'>
+          <div className='rounded-md p-2 items-center flex gap-2 mt-4 h-[10vh] hover:scale-110 text-center text-lg bg-[#fda3a3] text-white font-medium'>
+            <div>
+              <img src={skf} className='w-[10vh]'/>
+            </div>
+            <div>
+              <span>SKF</span>
+            </div>
+          </div>
+        </Link>
+        <Link to='/Bpcl_Admin'>
+          <div className='rounded-md p-2 items-center flex gap-2 mt-4 h-[10vh] hover:scale-110 text-center text-lg bg-[#afa62c] text-white font-medium'>
+            <div>
+              <img src={bpcl} className='w-[10vh]'/>
+            </div>
+            <div>
+              <span>BPCL</span>
+            </div>
+          </div>
+        </Link>
+    </div>
+    
     {/* pop up menu */}
     {popupOpen && (
     <div className='flex justify-end'>
